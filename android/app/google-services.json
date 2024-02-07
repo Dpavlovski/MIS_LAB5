@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "412777821654",
+    "firebase_url": "https://lab3-37ac1-default-rtdb.firebaseio.com",
+    "project_id": "lab3-37ac1",
+    "storage_bucket": "lab3-37ac1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412777821654:android:fc6d26b14763c96a002077",
+        "android_client_info": {
+          "package_name": "mk.ukim.finki.mis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDMT1TeTadIqnP8J_cF-SWGTdlHPQr1oQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
