@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
 
+  Home({super.key});
 
   void addExam(BuildContext context) {
     showDialog(
@@ -25,20 +26,20 @@ class Home extends StatelessWidget {
                 onChanged: (value) {
                   subject = value;
                 },
-                decoration: InputDecoration(labelText: 'Subject'),
+                decoration: const InputDecoration(labelText: 'Subject'),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Row(
                 children: [
                   Text('Date: ${timeSlot.toLocal()}'),
-                  SizedBox(width: 8.0),
+                  const SizedBox(width: 8.0),
                   ElevatedButton(
                     onPressed: () async {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
                         initialDate: timeSlot,
                         firstDate: DateTime.now(),
-                        lastDate: DateTime.now().add(Duration(days: 365)),
+                        lastDate: DateTime.now().add(const Duration(days: 365)),
                       );
                       if (pickedDate != null) {
                           timeSlot = DateTime(
@@ -50,14 +51,14 @@ class Home extends StatelessWidget {
                           );
                       }
                     },
-                    child: Text('Pick Date'),
+                    child: const Text('Pick Date'),
                   ),
                 ],
               ),
               Row(
                 children: [
                   Text('Time: ${timeSlot.toLocal().hour}:${timeSlot.toLocal().minute}'),
-                  SizedBox(width: 8.0),
+                  const SizedBox(width: 8.0),
                   ElevatedButton(
                     onPressed: () async {
                       TimeOfDay? pickedTime = await showTimePicker(
@@ -74,15 +75,15 @@ class Home extends StatelessWidget {
                           );
                       }
                     },
-                    child: Text('Pick Time'),
+                    child: const Text('Pick Time'),
                   ),
                 ],
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () async {
                   final user = Provider.of<User?>(context, listen: false);
-                  await DatabaseService(user!.uid).updateUserData(subject, timeSlot);
+                  await DatabaseService(user!.uid).addExam(subject, timeSlot);
                   Navigator.pop(context);
                 },
                 child: const Text("Add"),
@@ -94,60 +95,38 @@ class Home extends StatelessWidget {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
     return StreamProvider<List<Exam>>.value(
-      initialData: [],
+      initialData: const [],
       value: DatabaseService(user!.uid).exams,
       child: Scaffold(
         backgroundColor: Colors.blue[50],
         appBar: AppBar(
-          title: Text('Upcoming Exams'),
+          title: const Text('Upcoming Exams'),
           backgroundColor: Colors.blue[400],
           elevation: 0.0,
           actions: <Widget>[
             TextButton.icon(
-              icon: Icon(Icons.add),
-              label: Text('Add'),
+              icon: const Icon(Icons.add),
+              label: const Text('Add'),
               onPressed: () {
                 // Handle the addition of a new exam
                 addExam(context);
               },
             ),
             TextButton.icon(
-              icon: Icon(Icons.person),
-              label: Text('Logout'),
+              icon: const Icon(Icons.person),
+              label: const Text('Logout'),
               onPressed: () async {
                 await _auth.signOut();
               },
             ),
           ],
         ),
-        body: ExamList()
+        body: const ExamList()
       ),
     );
-
   }
-
-// Function to update an existing exam
-  void _updateExam(BuildContext context, String examId, String subject, DateTime dateTime) async {
-    // Example usage of updateExam
-    final user = Provider.of<User?>(context);
-    await DatabaseService(user!.uid).updateExam(examId, subject, dateTime);
-  }
-
-// Function to delete an exam
-  void _deleteExam(BuildContext context, String examId) async {
-    // Example usage of deleteExam
-    final user = Provider.of<User?>(context);
-    await DatabaseService(user!.uid).deleteExam(examId);
-  }
-
-
-
 }
-
-

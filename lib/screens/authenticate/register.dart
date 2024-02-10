@@ -6,7 +6,7 @@ import 'package:lab3/shared/loading.dart';
 class Register extends StatefulWidget {
 
   final Function toggleView;
-  Register( this.toggleView );
+  const Register( this.toggleView, {super.key} );
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -24,16 +24,16 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return loading ? Loading() : Scaffold(
+    return loading ? const Loading() : Scaffold(
       backgroundColor: Colors.blue[100],
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
         elevation: 0.0,
-        title: Text('Sign up'),
+        title: const Text('Sign up'),
         actions: <Widget>[
           TextButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Sign in'),
+            icon: const Icon(Icons.person),
+            label: const Text('Sign in'),
             onPressed: () {
               widget.toggleView();
             },
@@ -41,12 +41,12 @@ class _RegisterState extends State<Register> {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'Email'),
                 validator: (val) => val!.isEmpty ? 'Enter an email' : null,
@@ -54,7 +54,7 @@ class _RegisterState extends State<Register> {
                   setState(() => email = val);
                 },
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'Password'),
                 obscureText: true,
@@ -63,12 +63,12 @@ class _RegisterState extends State<Register> {
                   setState(() => password = val);
                 },
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue, // Change the background color here
                   ),
-                  child: Text(
+                  child: const Text(
                     'Register',
                     style: TextStyle(color: Colors.white),
                   ),
@@ -85,10 +85,10 @@ class _RegisterState extends State<Register> {
                     }
                   }
               ),
-              SizedBox(height: 12.0),
+              const SizedBox(height: 12.0),
               Text(
                 error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
+                style: const TextStyle(color: Colors.red, fontSize: 14.0),
               ),
             ],
           ),

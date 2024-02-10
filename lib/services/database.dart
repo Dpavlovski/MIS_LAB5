@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lab3/models/exam.dart';
-import 'package:lab3/models/user_data.dart';
 
 class DatabaseService {
-
   final String uid;
   DatabaseService(this.uid);
 
-  final CollectionReference examCollection = FirebaseFirestore.instance.collection('exams');
+  final CollectionReference examCollection =
+  FirebaseFirestore.instance.collection('exams');
 
-  Future<void> updateUserData(String subject, Timestamp timeSlot) async {
-    return await examCollection.doc(uid).set({
+  Future<void> addExam(String subject, DateTime timeSlot) async {
+    await examCollection.add({
+      'uid': uid,
       'subject': subject,
-      'timeSlot': timeSlot.toDate(), // Convert Timestamp to DateTime
+      'timeSlot': timeSlot,
     });
   }
 
@@ -28,37 +28,19 @@ class DatabaseService {
   }
 
   List<Exam> _examListFromSnapshot(QuerySnapshot snapshot) {
-    try {
-      return snapshot.docs.map((doc) {
-        Map<String, dynamic> data = doc.data()! as Map<String, dynamic>;
-        return Exam(
-          subject: data['subject'] ?? '',
-          timeSlot: (data['timeSlot'] as Timestamp?)?.toDate() ?? DateTime.now(),
-        );
-      }).toList();
-    } catch(e) {
-      print(e.toString());
-      return List.empty();
-    }
+    return snapshot.docs.map((doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      return Exam(
+        subject: data['subject'] ?? '',
+        timeSlot: (data['timeSlot'] as Timestamp).toDate(),
+      );
+    }).toList();
   }
 
-  Stream<List<Exam>>? get exams {
+  Stream<List<Exam>> get exams {
     return examCollection
         .where('uid', isEqualTo: uid)
         .snapshots()
         .map(_examListFromSnapshot);
-  }
-
-  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    return UserData(
-      uid: uid,
-      subject: (snapshot.data() as Map<String, dynamic>)['subject'] as String,
-      timeSlot: ((snapshot.data() as Map<String, dynamic>)['timeSlot'] as Timestamp?)?.toDate() ?? DateTime.now(),
-    );
-  }
-
-  Stream<UserData> get userData {
-    return examCollection.doc(uid).snapshots()
-        .map(_userDataFromSnapshot);
   }
 }

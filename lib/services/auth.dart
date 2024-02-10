@@ -13,7 +13,6 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       return result.user;
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -24,7 +23,6 @@ class AuthService {
       User? user =  result.user;
       return user;
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -33,7 +31,6 @@ class AuthService {
     try {
       return await _auth.signOut();
     } catch(e) {
-      print(e.toString());
       return null;
     }
   }

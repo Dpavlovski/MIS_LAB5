@@ -5,12 +5,13 @@ import 'package:lab3/screens/home/home.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {
+  const Wrapper({super.key});
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
-    print(user);
     // return either the Home or Authenticate widget
-    return user != null ? Home() : Authenticate();
+    return user != null ? Home() : const Authenticate();
 
   }
 }
