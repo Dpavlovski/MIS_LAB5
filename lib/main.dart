@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lab3/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:lab3/services/auth.dart';
@@ -14,6 +15,22 @@ void main() async {
       messagingSenderId: "412777821654",
       projectId: "lab3-37ac1",
     ),
+  );
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
+  // Initialize settings for Android and iOS platforms
+  final AndroidInitializationSettings initializationSettingsAndroid =
+  AndroidInitializationSettings('app_icon');
+  final IOSInitializationSettings initializationSettingsIOS =
+  IOSInitializationSettings();
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
   );
 
   runApp(const MyApp());
